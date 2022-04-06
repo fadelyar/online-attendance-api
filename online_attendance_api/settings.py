@@ -102,11 +102,22 @@ WSGI_APPLICATION = 'online_attendance_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd8qsjfvj26j9j7',
+        'USER': 'db3pqg70qp4eli',
+        'PASSWORD': 'b675e0576227d71b792417079c0050bf6e049fb0d4cb57bc68906e4bc49151f3',
+        'HOST': 'ec2-3-230-122-20.compute-1.amazonaws.com',
+        'PORT': '5432'
+    },
 }
 
 # Password validation
