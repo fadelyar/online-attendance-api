@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-@u)#+(wcftoc6aargxl)b78yn6$0+6*v*otysd^y=0xa1fc_)!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['online-attendance-api.herokuapp.com', '127.0.0.1', ]
+
 
 # Application definition
 
@@ -112,8 +113,8 @@ WSGI_APPLICATION = 'online_attendance_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd8qsjfvj26j9j7',
-        'USER': 'db3pqg70qp4eli',
+        'NAME': 'db3pqg70qp4eli',
+        'USER': 'dpeilgshbcqfhn',
         'PASSWORD': 'b675e0576227d71b792417079c0050bf6e049fb0d4cb57bc68906e4bc49151f3',
         'HOST': 'ec2-3-230-122-20.compute-1.amazonaws.com',
         'PORT': '5432'
