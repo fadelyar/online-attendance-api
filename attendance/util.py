@@ -1,6 +1,8 @@
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill, Font, colors, Alignment
 from datetime import datetime
+from io import BytesIO
+from urllib import request
 
 MONTH_DICTIONARY = {
     '1': 'january',
@@ -23,7 +25,8 @@ class WorkWithExcel:
     def __init__(self, path, sheet_name):
         self.path = path
         self.sheet_name = sheet_name
-        self.sheet = load_workbook(path)
+        file = request.urlopen(path).read()
+        self.sheet = load_workbook(filename=BytesIO(file))
         if not self.__is_sheet_exist(sheet_name):
             self.sheet.create_sheet(sheet_name)
             name_cell = self.sheet[sheet_name].cell(1, 1, value='Name')
