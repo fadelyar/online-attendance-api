@@ -31,15 +31,15 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     objects = UserManager()
     user_name = models.CharField(max_length=255)
-    father_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
     is_admin = models.BooleanField(default=False)
-    profile_picture = models.CharField(max_length=300, default='', null=True)
-    USERNAME_FIELD = 'user_name'
+    profile_picture = models.CharField(max_length=300, default=None, null=True)
+    USERNAME_FIELD = 'email'
+    auth_token = models.CharField(max_length=300, default='', null=True)
 
-    REQUIRED_FIELDS = ['email']
+    # REQUIRED_FIELDS = ['passw']
 
     def __str__(self):
         return self.user_name

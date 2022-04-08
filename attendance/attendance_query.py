@@ -2,7 +2,7 @@ import graphene
 from graphene import ObjectType, Field, List
 from graphene_django import DjangoObjectType
 from .models import ClassRoom, Student
-from .util import WorkWithExcel, MONTH_DICTIONARY
+from .util import WorkWithSpreadSheet, MONTH_DICTIONARY
 from datetime import datetime
 
 
@@ -21,27 +21,35 @@ class StudentType(DjangoObjectType):
 class Query(ObjectType):
     get_classes_by_teacher = List(ClassType, teacher_name=graphene.NonNull(graphene.String))
     get_student_by_class = List(StudentType, class_name=graphene.NonNull(graphene.String))
-    get_student_by_name = Field(
+    take_student_attendance = Field(
         StudentType,
         student_name=graphene.NonNull(graphene.String),
-        path=graphene.String()
+        class_name=graphene.NonNull(graphene.String),
+        teacher_id = graphene.NonNull(graphene.String),
+        token=graphene.NonNull(graphene.String)
     )
 
     @staticmethod
-    def resolve_get_student_by_name(root, info, **kwargs):
+    def resolve_take_student_attendance(root, info, **kwargs):
         student_name = kwargs.get('student_name')
+        class_name = kwargs.get('class_name')
         current_date = datetime.now()
+        teacher_id = kwargs.get('teacher_id')
         sheet_name = MONTH_DICTIONARY.get(f'{current_date.month}')
-        path = kwargs.get('path', None)
+        token = kwargs.get('token')
         try:
             student = Student.objects.get(name=student_name)
-            if path:
-                ws = WorkWithExcel(path=path, sheet_name=str(sheet_name + '_sheet'))
-                ws.take_attendance(
-                    user_name=student.name.capitalize(),
-                    father_name=student.name.capitalize()
-                )
+            ws = WorkWithSpreadSheet(
+                title=class_name,
+                work_sheet=MONTH_DICTIONARY.get(f'{sheet_name}'),
+                user_name=student.name,
+                father_name=student.father_name,
+                token=token,
+                teacher_id=teacher_id
+            )
+            ws.take_attendance()
             return student
+
         except Student.DoesNotExist:
             raise ValueError('user does not exist')
 
