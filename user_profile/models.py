@@ -37,7 +37,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     is_admin = models.BooleanField(default=False)
     profile_picture = models.CharField(max_length=300, default=None, null=True)
     USERNAME_FIELD = 'email'
-    auth_token = models.CharField(max_length=300, default='', null=True)
+    auth_token = models.TextField(default='', null=True)
 
     # REQUIRED_FIELDS = ['passw']
 

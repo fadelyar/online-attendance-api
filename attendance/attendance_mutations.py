@@ -9,27 +9,25 @@ from datetime import datetime
 class CreateClass(graphene.Mutation):
     class Arguments:
         class_name = graphene.String(required=True)
-        teacher_name = graphene.String(required=True)
+        teacher_email = graphene.String(required=True)
         short_description = graphene.String()
-        token = graphene.String(required=True)
 
     class_room = graphene.Field(ClassType)
 
     @classmethod
     def mutate(cls, root, info, **kwargs):
         class_name = kwargs.get('class_name')
-        teacher_name = kwargs.get('teacher_name')
+        teacher_email = kwargs.get('teacher_email')
         short_description = kwargs.get('short_description', None)
-        token = kwargs.get('token')
         try:
-            teacher = Profile.objects.get(user_name=teacher_name)
+            teacher = Profile.objects.get(email=teacher_email)
         except Profile.DoesNotExist:
             raise ValueError('teacher with specified name does not exist')
         new_class = ClassRoom()
         new_class.class_name = class_name
         new_class.teacher = teacher
         new_class.short_description = short_description
-        main_sheet = MaintainSpreadSheet(token=token, teacher_id=teacher.id)
+        main_sheet = MaintainSpreadSheet(token=teacher.auth_token, teacher_id=teacher.id)
         main_sheet.create_sheet(sheet_name=new_class.class_name)
         new_class.save()
         return CreateClass(class_room=new_class)

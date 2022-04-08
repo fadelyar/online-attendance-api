@@ -4,6 +4,7 @@ from graphene_django import DjangoObjectType
 from .models import ClassRoom, Student
 from .util import WorkWithSpreadSheet, MONTH_DICTIONARY
 from datetime import datetime
+from user_profile.models import Profile
 
 
 class ClassType(DjangoObjectType):
@@ -25,7 +26,7 @@ class Query(ObjectType):
         StudentType,
         student_name=graphene.NonNull(graphene.String),
         class_name=graphene.NonNull(graphene.String),
-        teacher_id = graphene.NonNull(graphene.String),
+        teacher_email=graphene.NonNull(graphene.String),
         token=graphene.NonNull(graphene.String)
     )
 
@@ -34,18 +35,18 @@ class Query(ObjectType):
         student_name = kwargs.get('student_name')
         class_name = kwargs.get('class_name')
         current_date = datetime.now()
-        teacher_id = kwargs.get('teacher_id')
+        teacher_email = kwargs.get('teacher_email')
         sheet_name = MONTH_DICTIONARY.get(f'{current_date.month}')
-        token = kwargs.get('token')
         try:
             student = Student.objects.get(name=student_name)
+            teacher = Profile.objects.get(email=teacher_email)
             ws = WorkWithSpreadSheet(
                 title=class_name,
                 work_sheet=MONTH_DICTIONARY.get(f'{sheet_name}'),
                 user_name=student.name,
                 father_name=student.father_name,
-                token=token,
-                teacher_id=teacher_id
+                token=teacher.auth_token,
+                teacher_email=teacher_email
             )
             ws.take_attendance()
             return student
