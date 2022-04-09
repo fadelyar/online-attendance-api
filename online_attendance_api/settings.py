@@ -113,10 +113,10 @@ WSGI_APPLICATION = 'online_attendance_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db3pqg70qp4eli',
-        'USER': 'dpeilgshbcqfhn',
-        'PASSWORD': 'b675e0576227d71b792417079c0050bf6e049fb0d4cb57bc68906e4bc49151f3',
-        'HOST': 'ec2-3-230-122-20.compute-1.amazonaws.com',
+        'NAME': 'd42n426pq2sb59',
+        'USER': 'kgrpvjukonohxh',
+        'PASSWORD': '3a2f5f524b67237f13af40c4ef6fec943cd2949cc1e3c173340acfdce2333971',
+        'HOST': 'ec2-34-192-210-139.compute-1.amazonaws.com',
         'PORT': '5432'
     },
 }
