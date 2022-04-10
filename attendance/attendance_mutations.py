@@ -10,7 +10,7 @@ class CreateClass(graphene.Mutation):
     class Arguments:
         class_name = graphene.String(required=True)
         teacher_email = graphene.String(required=True)
-        short_description = graphene.String()
+        short_description = graphene.String(required=True)
 
     class_room = graphene.Field(ClassType)
 
@@ -18,7 +18,7 @@ class CreateClass(graphene.Mutation):
     def mutate(cls, root, info, **kwargs):
         class_name = kwargs.get('class_name')
         teacher_email = kwargs.get('teacher_email')
-        short_description = kwargs.get('short_description', None)
+        short_description = kwargs.get('short_description')
         try:
             teacher = Profile.objects.get(email=teacher_email)
         except Profile.DoesNotExist:
