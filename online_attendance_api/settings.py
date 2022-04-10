@@ -84,8 +84,7 @@ ROOT_URLCONF = 'online_attendance_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,9 +112,9 @@ WSGI_APPLICATION = 'online_attendance_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd72mhhn2ag48bb',
-        'USER': 'aebqglyxstmipz',
-        'PASSWORD': '09cfa4207d996a36e314379e569e3046936900860e669cf3f35ab32517b17b8d',
+        'NAME': 'd9us69e0vlb4f7',
+        'USER': 'fvcjhtodfmsuas',
+        'PASSWORD': '3fd460e240d9b2a05b3a33cf5e1dee4d5f1c7aa03e763bf6f63c2e740b5a7538',
         'HOST': 'ec2-34-197-84-74.compute-1.amazonaws.com',
         'PORT': '5432'
     },

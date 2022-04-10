@@ -21,7 +21,7 @@ class StudentType(DjangoObjectType):
 
 class Query(ObjectType):
     get_classes_by_teacher = List(ClassType, teacher_email=graphene.NonNull(graphene.String))
-    get_student_by_class = List(StudentType, class_name=graphene.NonNull(graphene.String))
+    get_student_by_class = List(StudentType, class_id=graphene.NonNull(graphene.String))
     take_student_attendance = Field(
         StudentType,
         student_name=graphene.NonNull(graphene.String),
@@ -64,8 +64,8 @@ class Query(ObjectType):
 
     @staticmethod
     def resolve_get_student_by_class(root, info, **kwargs):
-        class_name = kwargs.get('class_name')
+        class_name = kwargs.get('class_id')
         try:
-            return Student.objects.filter(classroom__class_name=class_name).all()
+            return Student.objects.filter(classroom__id=class_name).all()
         except Student.DoesNotExist:
             raise ValueError('students does not exist!')
