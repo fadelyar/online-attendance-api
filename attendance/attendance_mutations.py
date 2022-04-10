@@ -30,7 +30,7 @@ class CreateClass(graphene.Mutation):
         main_sheet = MaintainSpreadSheet(token=teacher.auth_token, teacher_id=teacher.id)
         main_sheet.create_sheet(sheet_name=new_class.class_name)
         new_class.save()
-        return CreateClass(class_room=new_class)
+        return CreateClass(class_room)
 
 
 class CreateStudent(graphene.Mutation):
