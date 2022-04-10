@@ -113,14 +113,15 @@ class WorkWithSpreadSheet:
         self.father_name = father_name
         self.work_sheet = work_sheet
 
-        if len(token) == 0:
-            self.gc, self.authorized_user = gspread.oauth_from_dict(cred2)
-            teacher = Profile.objects.get(email=teacher_email)
-            teacher.auth_token = json.dumps(self.authorized_user)
-            teacher.save()
-        else:
-            json_token = json.loads(token)
-            self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, json.loads(json_token))
+        # if len(token) == 0:
+        #     self.gc, self.authorized_user = gspread.oauth_from_dict(cred2)
+        #     teacher = Profile.objects.get(email=teacher_email)
+        #     teacher.auth_token = json.dumps(self.authorized_user)
+        #     teacher.save()
+        # else:
+        #     json_token = json.loads(token)
+        #     self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, json.loads(json_token))
+        self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, auth_user)
 
         try:
             self.sheet = self.gc.open(title)
