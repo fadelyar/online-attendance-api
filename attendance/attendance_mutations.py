@@ -35,7 +35,7 @@ class CreateClass(graphene.Mutation):
 
 class CreateStudent(graphene.Mutation):
     class Arguments:
-        class_id = graphene.Int(required=True)
+        class_id = graphene.String(required=True)
         name = graphene.String(required=True)
         father_name = graphene.String(required=True)
         email = graphene.String(required=True)
