@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from user_profile.models import Profile
-import uuid
 
 
 class Student(models.Model):

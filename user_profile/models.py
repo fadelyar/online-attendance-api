@@ -28,7 +28,6 @@ class UserManager(BaseUserManager):
 
 
 class Profile(AbstractBaseUser, PermissionsMixin):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     objects = UserManager()
     user_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
