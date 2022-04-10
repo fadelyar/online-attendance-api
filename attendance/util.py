@@ -77,18 +77,30 @@ present_style = CellFormat(
     textFormat=TextFormat(bold=True, foregroundColor=Color(0.9, 0.9, 0.9)),
     horizontalAlignment='CENTER'
 )
+auth_user = {
+    "refresh_token": "1//0ch08ASOv6EIvCgYIARAAGAwSNwF-L9Ir9-TWjwktlfSP9mfj9GGg3YDk6CzHsGeuPv0FairzBMxe4UPtRW4Vg0MktgMrNzyL-K4",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "client_id": "82043710113-fvqd9hfbltr2n7hvssag17tbe28emh2u.apps.googleusercontent.com",
+    "client_secret": "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",
+    "scopes": ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"],
+    "expiry": "2022-04-10T19:00:57.047151Z"}
+
+gc, authorized_user = gspread.oauth_from_dict(cred2, auth_user)
 
 
 class MaintainSpreadSheet:
     def __init__(self, token: str, teacher_id):
-        if len(token) == 0:
-            self.gc, self.authorized_user = gspread.oauth_from_dict(cred2)
-            teacher = Profile.objects.get(pk=teacher_id)
-            teacher.auth_token = json.dumps(self.authorized_user)
-            teacher.save()
-        else:
-            json_token = json.loads(token)
-            self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, json.loads(json_token))
+        # if len(token) == 0:
+        #     self.gc, self.authorized_user = gspread.oauth_from_dict(cred2)
+        #     teacher = Profile.objects.get(pk=teacher_id)
+        #     print(self.authorized_user)
+        #     teacher.auth_token = json.dumps(self.authorized_user)
+        #     teacher.save()
+        # else:
+        #     json_token = json.loads(token)
+        #     self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, json.loads(json_token))
+
+        self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, auth_user)
 
     def create_sheet(self, sheet_name):
         self.gc.create(sheet_name)
@@ -102,7 +114,7 @@ class WorkWithSpreadSheet:
         self.work_sheet = work_sheet
 
         if len(token) == 0:
-            self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, fg)
+            self.gc, self.authorized_user = gspread.oauth_from_dict(cred2)
             teacher = Profile.objects.get(email=teacher_email)
             teacher.auth_token = json.dumps(self.authorized_user)
             teacher.save()
