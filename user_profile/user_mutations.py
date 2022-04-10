@@ -14,6 +14,30 @@ class UserDeleteType(DjangoObjectType):
         model = Profile
 
 
+class UpdateProfile(Mutation):
+    class Arguments:
+        user_name = String(required=True)
+        password = String(required=True)
+        email = String(required=True)
+        profile_picture = String()
+
+    user = Field(UserRegisterType)
+
+    @classmethod
+    def mutate(cls, root, info, **kwargs):
+        email = kwargs.get('email')
+        try:
+            new_user = Profile.objects.get(email=email)
+            new_user.email = email
+            new_user.set_password(kwargs.get('password'))
+            new_user.user_name = kwargs.get('user_name')
+            new_user.profile_picture = kwargs.get('profile_picture')
+            new_user.save()
+            return UpdateProfile(user=new_user)
+        except Profile.DoesNotExist:
+            raise ValueError('user does not exist!')
+
+
 class RegisterUser(Mutation):
     class Arguments:
         user_name = String(required=True)
