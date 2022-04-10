@@ -21,7 +21,7 @@ class StudentType(DjangoObjectType):
 
 class Query(ObjectType):
     get_classes_by_teacher = List(ClassType, teacher_email=graphene.NonNull(graphene.String))
-    get_student_by_class = List(StudentType, class_id=graphene.NonNull(graphene.String))
+    get_student_by_class = List(StudentType, class_id=graphene.NonNull(graphene.Int))
     take_student_attendance = Field(
         StudentType,
         student_name=graphene.NonNull(graphene.String),
