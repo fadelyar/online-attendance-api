@@ -24,7 +24,7 @@ class Query(ObjectType):
     get_student_by_class = List(StudentType, class_id=graphene.NonNull(graphene.String))
     take_student_attendance = Field(
         StudentType,
-        student_name=graphene.NonNull(graphene.String),
+        student_email=graphene.NonNull(graphene.String),
         class_name=graphene.NonNull(graphene.String),
         teacher_email=graphene.NonNull(graphene.String),
         token=graphene.NonNull(graphene.String)
@@ -32,13 +32,13 @@ class Query(ObjectType):
 
     @staticmethod
     def resolve_take_student_attendance(root, info, **kwargs):
-        student_name = kwargs.get('student_name')
+        student_email = kwargs.get('student_email')
         class_name = kwargs.get('class_name')
         current_date = datetime.now()
         teacher_email = kwargs.get('teacher_email')
         sheet_name = MONTH_DICTIONARY.get(f'{current_date.month}')
         try:
-            student = Student.objects.get(name=student_name)
+            student = Student.objects.get(email=student_email)
             teacher = Profile.objects.get(email=teacher_email)
             ws = WorkWithSpreadSheet(
                 title=class_name,
