@@ -90,7 +90,7 @@ auth_user = {
 
 
 class MaintainSpreadSheet:
-    def __init__(self, token: str, teacher_id):
+    def __init__(self):
         # if len(token) == 0:
         #     self.gc, self.authorized_user = gspread.oauth_from_dict(cred2)
         #     teacher = Profile.objects.get(pk=teacher_id)
@@ -113,12 +113,10 @@ class WorkWithSpreadSheet:
 
         self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, auth_user)
 
-        try:
-            self.sheet = self.gc.open(title)
-        except SpreadsheetNotFound:
-            self.sheet = self.gc.create(title)
+        self.sheet = self.gc.open(title)
 
         if not self.is_work_sheet_exist(work_sheet):
+            print('helooooo---->', work_sheet)
             local_work_sheet = self.sheet.add_worksheet(title=work_sheet, rows=100, cols=35)
             local_work_sheet.append_rows(values=[WorkWithSpreadSheet.set_header(
                 'Name',
@@ -132,7 +130,7 @@ class WorkWithSpreadSheet:
             local_work_sheet.append_rows(values=[[self.user_name, self.father_name]])
 
     def take_attendance(self):
-        print('this------------>')
+        print(self.work_sheet, '----------------->')
         user_row = self.find_user(self.user_name)
         work_sheet = self.sheet.worksheet(self.work_sheet)
         work_sheet.update_cell(user_row, datetime.now().day + 2, 'present')
@@ -150,7 +148,7 @@ class WorkWithSpreadSheet:
         cell = work_sheet.find(user_name)
         if cell:
             return cell.row
-        return None
+        return False
 
     @staticmethod
     def set_header(user_name, father_name, work_sheet: str):

@@ -36,15 +36,14 @@ class Query(ObjectType):
         sheet_name = MONTH_DICTIONARY.get(f'{current_date.month}')
         try:
             student = Student.objects.get(email=student_email)
-
+            # de = MaintainSpreadSheet()
+            # de.create_sheet(sheet_name='animation')
             ws = WorkWithSpreadSheet(
                 title=class_name,
                 work_sheet=sheet_name,
                 user_name=student.name,
                 father_name=student.father_name,
             )
-            # de = MaintainSpreadSheet()
-            # de.create_sheet(sheet_name='java')
             ws.take_attendance()
             return student
 
