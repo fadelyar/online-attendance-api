@@ -143,7 +143,7 @@ class WorkWithSpreadSheet:
         user_row = self.find_user(self.user_name)
         work_sheet = self.sheet.worksheet(self.work_sheet)
         work_sheet.update_cell(user_row, datetime.now().day + 2, 'present')
-        # format_cell_range(work_sheet, [('1', header_style)])
+        format_cell_range(work_sheet, f'{datetime.now().day + 2}:{user_row}', header_style)
 
     def is_work_sheet_exist(self, work_sheet):
         try:
