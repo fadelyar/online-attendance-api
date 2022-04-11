@@ -27,7 +27,7 @@ class CreateClass(graphene.Mutation):
         new_class.class_name = class_name
         new_class.teacher = teacher
         new_class.short_description = short_description
-        main_sheet = MaintainSpreadSheet(token=teacher.auth_token, teacher_id=teacher.id)
+        main_sheet = MaintainSpreadSheet()
         main_sheet.create_sheet(sheet_name=new_class.class_name)
         new_class.save()
         return CreateClass(class_room=new_class)
