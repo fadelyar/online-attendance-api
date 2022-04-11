@@ -88,6 +88,8 @@ class DeleteStudent(graphene.Mutation):
     def mutate(cls, root, info, **kwargs):
         student_id = kwargs.get('student_id')
         deleted_student = Student.objects.get(pk=student_id)
+        deleted_student.delete()
+        deleted_student.save()
         return DeleteStudent(student=deleted_student)
 
 
