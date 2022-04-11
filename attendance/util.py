@@ -113,29 +113,22 @@ class WorkWithSpreadSheet:
         self.father_name = father_name
         self.work_sheet = work_sheet
 
-        # if len(token) == 0:
-        #     self.gc, self.authorized_user = gspread.oauth_from_dict(cred2)
-        #     teacher = Profile.objects.get(email=teacher_email)
-        #     teacher.auth_token = json.dumps(self.authorized_user)
-        #     teacher.save()
-        # else:
-        #     json_token = json.loads(token)
-        #     self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, json.loads(json_token))
         self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, auth_user)
 
         try:
             self.sheet = self.gc.open(title)
         except SpreadsheetNotFound:
             self.sheet = self.gc.create(title)
+            # self.sheet.add_worksheet(work_sheet, rows=100, cols=35)
 
         if not self.is_work_sheet_exist(work_sheet):
             local_work_sheet = self.sheet.add_worksheet(title=work_sheet, rows=100, cols=35)
-            local_work_sheet.append_rows(values=[WorkWithSpreadSheet.set_header(
-                'Name',
-                'Father Name',
-                self.work_sheet
-            )])
-            format_cell_ranges(local_work_sheet, [('1', header_style)])
+            # local_work_sheet.append_rows(values=[WorkWithSpreadSheet.set_header(
+            #     'Name',
+            #     'Father Name',
+            #     self.work_sheet
+            # )])
+            # format_cell_ranges(local_work_sheet, [('1', header_style)])
 
         if not self.find_user(self.user_name):
             local_work_sheet = self.sheet.worksheet(self.work_sheet)
@@ -167,5 +160,5 @@ class WorkWithSpreadSheet:
         result.append(user_name)
         result.append(father_name)
         for i in range(1, 32):
-            result.append(f'{i} {work_sheet[:3]}')
+            result.append(i)
         return result
