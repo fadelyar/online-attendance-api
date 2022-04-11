@@ -2,7 +2,7 @@ import graphene
 from graphene import ObjectType, Field, List
 from graphene_django import DjangoObjectType
 from .models import ClassRoom, Student
-from .util import WorkWithSpreadSheet, MONTH_DICTIONARY
+from .util import WorkWithSpreadSheet, MONTH_DICTIONARY, MaintainSpreadSheet
 from datetime import datetime
 from user_profile.models import Profile
 
@@ -40,13 +40,16 @@ class Query(ObjectType):
         try:
             student = Student.objects.get(email=student_email)
             teacher = Profile.objects.get(email=teacher_email)
-            # ws = WorkWithSpreadSheet(
-            #     sheet=class_name,
-            #     work_sheet=MONTH_DICTIONARY.get(f'{sheet_name}'),
-            #     user_name=student.name,
-            #     father_name=student.father_name,
-            # )
-            # ws.take_attendance()
+
+            ws = WorkWithSpreadSheet(
+                title=class_name,
+                work_sheet=sheet_name,
+                user_name=student.name,
+                father_name=student.father_name,
+            )
+            # de = MaintainSpreadSheet()
+            # de.create_sheet(sheet_name='java')
+            ws.take_attendance()
             return student
 
         except Student.DoesNotExist:
