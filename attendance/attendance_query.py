@@ -26,8 +26,6 @@ class Query(ObjectType):
         StudentType,
         student_email=graphene.NonNull(graphene.String),
         class_name=graphene.NonNull(graphene.String),
-        teacher_email=graphene.NonNull(graphene.String),
-        token=graphene.NonNull(graphene.String)
     )
 
     @staticmethod
@@ -35,11 +33,9 @@ class Query(ObjectType):
         student_email = kwargs.get('student_email')
         class_name = kwargs.get('class_name')
         current_date = datetime.now()
-        teacher_email = kwargs.get('teacher_email')
         sheet_name = MONTH_DICTIONARY.get(f'{current_date.month}')
         try:
             student = Student.objects.get(email=student_email)
-            teacher = Profile.objects.get(email=teacher_email)
 
             ws = WorkWithSpreadSheet(
                 title=class_name,
