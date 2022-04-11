@@ -40,15 +40,13 @@ class Query(ObjectType):
         try:
             student = Student.objects.get(email=student_email)
             teacher = Profile.objects.get(email=teacher_email)
-            ws = WorkWithSpreadSheet(
-                title=class_name,
-                work_sheet=MONTH_DICTIONARY.get(f'{sheet_name}'),
-                user_name=student.name,
-                father_name=student.father_name,
-                token=teacher.auth_token,
-                teacher_email=teacher_email
-            )
-            ws.take_attendance()
+            # ws = WorkWithSpreadSheet(
+            #     sheet=class_name,
+            #     work_sheet=MONTH_DICTIONARY.get(f'{sheet_name}'),
+            #     user_name=student.name,
+            #     father_name=student.father_name,
+            # )
+            # ws.take_attendance()
             return student
 
         except Student.DoesNotExist:

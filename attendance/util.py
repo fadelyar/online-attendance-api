@@ -85,7 +85,8 @@ auth_user = {
     "scopes": ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"],
     "expiry": "2022-04-10T19:00:57.047151Z"}
 
-gc, authorized_user = gspread.oauth_from_dict(cred2, auth_user)
+
+# gc, authorized_user = gspread.oauth_from_dict(cred2, auth_user)
 
 
 class MaintainSpreadSheet:
@@ -108,57 +109,25 @@ class MaintainSpreadSheet:
 
 class WorkWithSpreadSheet:
 
-    def __init__(self, title, work_sheet, user_name, father_name, token, teacher_email):
+    def __init__(self, sheet, work_sheet, user_name, father_name):
+        self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, auth_user)
+        self.sheet = sheet
         self.user_name = user_name
         self.father_name = father_name
         self.work_sheet = work_sheet
+        self.is_sheet_exist()
+        self.is_work_sheet_exist()
 
-        self.gc, self.authorized_user = gspread.oauth_from_dict(cred2, auth_user)
-
+    def is_work_sheet_exist(self):
         try:
-            self.sheet = self.gc.open(title)
-        except SpreadsheetNotFound:
-            self.sheet = self.gc.create(title)
-            # self.sheet.add_worksheet(work_sheet, rows=100, cols=35)
-
-        if not self.is_work_sheet_exist(work_sheet):
-            local_work_sheet = self.sheet.add_worksheet(title=work_sheet, rows=100, cols=35)
-            # local_work_sheet.append_rows(values=[WorkWithSpreadSheet.set_header(
-            #     'Name',
-            #     'Father Name',
-            #     self.work_sheet
-            # )])
-            # format_cell_ranges(local_work_sheet, [('1', header_style)])
-
-        if not self.find_user(self.user_name):
-            local_work_sheet = self.sheet.worksheet(self.work_sheet)
-            local_work_sheet.append_rows(values=[[self.user_name, self.father_name]])
-
-    def take_attendance(self):
-        user_row = self.find_user(self.user_name)
-        work_sheet = self.sheet.worksheet(self.work_sheet)
-        work_sheet.update_cell(user_row, datetime.now().day + 2, 'present')
-        # format_cell_range(work_sheet, [('1', header_style)])
-
-    def is_work_sheet_exist(self, work_sheet):
-        try:
-            self.sheet.worksheet(work_sheet)
-            return True
+            sh = self.gc.open(self.sheet)
+            wk = sh.worksheet(self.work_sheet)
         except WorksheetNotFound:
-            return False
+            sh = self.gc.open(self.sheet)
+            sh.add_worksheet(self.work_sheet)
 
-    def find_user(self, user_name):
-        work_sheet = self.sheet.worksheet(self.work_sheet)
-        cell = work_sheet.find(user_name)
-        if cell:
-            return cell.row
-        return None
-
-    @staticmethod
-    def set_header(user_name, father_name, work_sheet: str):
-        result = list()
-        result.append(user_name)
-        result.append(father_name)
-        for i in range(1, 32):
-            result.append(i)
-        return result
+    def is_sheet_exist(self):
+        try:
+            self.gc.open(self.sheet)
+        except SpreadsheetNotFound:
+            self.gc.create(self.sheet)
