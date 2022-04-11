@@ -10,7 +10,7 @@ class Student(models.Model):
     name = models.CharField(max_length=300)
     father_name = models.CharField(max_length=300, default=None)
     email = models.EmailField(unique=True, default=None, null=True)
-    profile_picture = models.URLField(default=None, null=True)
+    profile_picture = models.CharField(max_length=300, default=None, null=True)
     created_at = models.DateTimeField(default=timezone.now, null=True)
 
     def __str__(self):
