@@ -78,7 +78,7 @@ class DeleteClass(graphene.Mutation):
     @classmethod
     def mutate(cls, root, info, **kwargs):
         class_id = kwargs.get('class_id')
-        deleted_class = ClassRoom.objects.get(pk=class_id)
+        deleted_class = ClassRoom.objects.get(id=class_id)
         deleted_class.delete()
         return DeleteClass(class_room=deleted_class)
 
@@ -92,7 +92,7 @@ class DeleteStudent(graphene.Mutation):
     @classmethod
     def mutate(cls, root, info, **kwargs):
         student_id = kwargs.get('student_id')
-        deleted_student = Student.objects.get(pk=student_id)
+        deleted_student = Student.objects.get(id=student_id)
         deleted_student.delete()
         return DeleteStudent(student=deleted_student)
 
