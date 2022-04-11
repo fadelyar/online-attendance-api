@@ -23,13 +23,17 @@ class CreateClass(graphene.Mutation):
             teacher = Profile.objects.get(email=teacher_email)
         except Profile.DoesNotExist:
             raise ValueError('teacher with specified name does not exist')
-        new_class = ClassRoom()
-        new_class.class_name = class_name
-        new_class.teacher = teacher
-        new_class.short_description = short_description
-        main_sheet = MaintainSpreadSheet()
-        main_sheet.create_sheet(sheet_name=new_class.class_name)
-        new_class.save()
+        try:
+            teacher.classroom_set.get(class_name=class_name)
+            raise ValueError('There is already a class with same name')
+        except ClassRoom.DoesNotExist:
+            new_class = ClassRoom()
+            new_class.class_name = class_name
+            new_class.teacher = teacher
+            new_class.short_description = short_description
+            main_sheet = MaintainSpreadSheet()
+            main_sheet.create_sheet(sheet_name=new_class.class_name)
+            new_class.save()
         return CreateClass(class_room=new_class)
 
 
@@ -74,7 +78,8 @@ class DeleteClass(graphene.Mutation):
     @classmethod
     def mutate(cls, root, info, **kwargs):
         class_id = kwargs.get('class_id')
-        deleted_class = ClassRoom.objects.get(pk=class_id).delete()
+        deleted_class = ClassRoom.objects.get(pk=class_id)
+        deleted_class.delete()
         return DeleteClass(class_room=deleted_class)
 
 
@@ -89,7 +94,6 @@ class DeleteStudent(graphene.Mutation):
         student_id = kwargs.get('student_id')
         deleted_student = Student.objects.get(pk=student_id)
         deleted_student.delete()
-        deleted_student.save()
         return DeleteStudent(student=deleted_student)
 
 
