@@ -140,9 +140,11 @@ class WorkWithSpreadSheet:
         user_row = self.find_user(self.user_name)
         work_sheet = self.sheet.worksheet(self.work_sheet)
         for i in range(2, next_available_row(work_sheet) + 1):
-            work_sheet.update_cell(i, datetime.now().day + 2, 'absent')
-            col = COLUMNS.get(str(datetime.now().day + 2))
-            format_cell_range(work_sheet, f'{col}{i}', absent_style)
+            cell = work_sheet.cell(i, datetime.now().day + 2).value
+            if cell is None or cell == '':
+                work_sheet.update_cell(i, datetime.now().day + 2, 'absent')
+                col = COLUMNS.get(str(datetime.now().day + 2))
+                format_cell_range(work_sheet, f'{col}{i}', absent_style)
 
         work_sheet.update_cell(user_row, datetime.now().day + 2, 'present')
         col = COLUMNS.get(str(datetime.now().day + 2))
