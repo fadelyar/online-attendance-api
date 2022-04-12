@@ -38,9 +38,9 @@ class Query(ObjectType):
         try:
             student = Student.objects.get(email=student_email)
             teacher = ClassRoom.teacher.objects.get(classroom__class_name=class_name)
-            if not info.context_user and info.context_user.email != teacher.email:
-                raise ValueError('Authentication Error!')
-                # de = MaintainSpreadSheet()
+            # if not info.context_user and info.context_user.email != teacher.email:
+            #     raise ValueError('Authentication Error!')
+            # de = MaintainSpreadSheet()
             # de.create_sheet(sheet_name='animation')
             ws = WorkWithSpreadSheet(
                 title=class_name,
