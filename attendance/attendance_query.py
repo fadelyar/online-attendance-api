@@ -38,8 +38,8 @@ class Query(ObjectType):
         try:
             student = Student.objects.get(email=student_email)
             teacher = ClassRoom.teacher.objects.get(classroom__class_name=class_name)
-            if not info.context.user.is_authenticated and info.context.user.email != teacher.email:
-                raise ValueError('Authentication Error!')
+#             if not info.context.user.is_authenticated and info.context.user.email != teacher.email:
+#                 raise ValueError('Authentication Error!')
                 # de = MaintainSpreadSheet()
             # de.create_sheet(sheet_name='animation')
             ws = WorkWithSpreadSheet(
