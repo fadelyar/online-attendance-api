@@ -30,13 +30,17 @@ class Query(ObjectType):
 
     @staticmethod
     def resolve_take_student_attendance(root, info, **kwargs):
+
         student_email = kwargs.get('student_email')
         class_name = kwargs.get('class_name')
         current_date = datetime.now()
         sheet_name = MONTH_DICTIONARY.get(f'{current_date.month}')
         try:
             student = Student.objects.get(email=student_email)
-            # de = MaintainSpreadSheet()
+            teacher = ClassRoom.teacher.objects.get(classroom__class_name=class_name)
+            if not info.context_user and info.context_user.email != teacher.email:
+                raise ValueError('Authentication Error!')
+                # de = MaintainSpreadSheet()
             # de.create_sheet(sheet_name='animation')
             ws = WorkWithSpreadSheet(
                 title=class_name,
