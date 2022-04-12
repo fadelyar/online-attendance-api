@@ -53,17 +53,7 @@ COLUMNS = {
     '33': 'AH'
 }
 
-cred2 = {
-    "installed":
-        {"client_id": "82043710113-fvqd9hfbltr2n7hvssag17tbe28emh2u.apps.googleusercontent.com",
-         "project_id": "cool-phalanx-346412",
-         "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-         "token_uri": "https://oauth2.googleapis.com/token",
-         "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-         "client_secret": "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",
-         "redirect_uris": ["http://localhost"]
-         }
-}
+
 
 header_style = CellFormat(
     backgroundColor=Color(0, 0, 0),
@@ -80,14 +70,6 @@ absent_style = CellFormat(
     textFormat=TextFormat(bold=True, foregroundColor=Color(1, 1, 1)),
     horizontalAlignment='CENTER'
 )
-auth_user = {
-    "refresh_token": "1//0cz_AXmJs4ukdCgYIARAAGAwSNwF-L9Iruli5JPj2KKFsIFtHTam2BDB4hLlpnyA1nfPsv-9DdbdtSzy5acb1sJcybHuxL_pgx4c",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "client_id": "82043710113-fvqd9hfbltr2n7hvssag17tbe28emh2u.apps.googleusercontent.com",
-    "client_secret": "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",
-    "scopes": ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"],
-    "expiry": "2022-04-11T09:16:24.235561Z"}
-
 
 # gc, authorized_user = gspread.oauth_from_dict(cred2, auth_user)
 # print(authorized_user)
